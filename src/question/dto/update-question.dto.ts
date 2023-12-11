@@ -11,5 +11,7 @@ export class UpdateQuestionDto {
   @IsOptional()
   correct_answer?: string;
   @IsOptional()
-  incorrect_answer?: string[];
+  incorrect_answer1?: string;
+  @IsOptional()
+  incorrect_answer2?: string;
 }

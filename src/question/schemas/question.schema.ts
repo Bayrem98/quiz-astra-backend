@@ -11,8 +11,10 @@ export class Question {
   question: string;
   @Prop({ required: true, type: String })
   correct_answer: string;
-  @Prop({ required: true, type: [String] })
-  incorrect_answer: string[];
+  @Prop({ required: true, type: String })
+  incorrect_answer1: string;
+  @Prop({ required: true, type: String })
+  incorrect_answer2: string;
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);
