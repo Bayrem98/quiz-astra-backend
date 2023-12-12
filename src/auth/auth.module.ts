@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { CurrentUserInterceptor } from './user.interceptor';
 import { LocalStrategy } from './local.strategy';
+import { AdminuserModule } from 'src/adminuser/adminuser.module';
 
 export const jwtConstants = {
   secret: 'g§ueve45u§eyvZeicne',
@@ -14,6 +15,7 @@ export const jwtConstants = {
 
 @Module({
   imports: [
+    AdminuserModule,
     UserModule,
     PassportModule,
     JwtModule.register({
