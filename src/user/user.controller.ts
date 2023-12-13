@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -42,5 +44,20 @@ export class UserController {
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.userService.delete(id);
+  }
+
+  @Post(':id/save-answers')
+  saveAnswers(
+    @Param('id') userId: string,
+    @Body() quizAnswers: { quizResponses: string[] },
+  ): Promise<User> {
+    return this.userService.saveQuizAnswers(userId, quizAnswers.quizResponses);
+  }
+  catch(error) {
+    console.error('Error in saveAnswers:', error);
+    throw new HttpException(
+      'Internal Server Error',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
   }
 }

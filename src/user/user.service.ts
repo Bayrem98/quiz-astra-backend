@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import CreateUserDto from './dto/create-user.dto';
 import UpdateUserDto from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -42,5 +42,44 @@ export class UserService {
 
   async delete(id: string): Promise</*DeleteResult*/ any> {
     return this.userModel.deleteOne({ _id: id });
+  }
+
+  async saveQuizAnswers(
+    userId: string,
+    quizResponses: string[],
+  ): Promise<User> {
+    const isValidObjectId = Types.ObjectId.isValid(userId);
+
+    if (!isValidObjectId) {
+      throw new HttpException('Invalid user ID', HttpStatus.BAD_REQUEST);
+    }
+
+    if (!quizResponses || quizResponses.length === 0) {
+      throw new HttpException(
+        'Quiz responses are empty',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    // Utilisez la méthode du modèle pour mettre à jour les réponses du quiz
+    try {
+      const result = await this.userModel.findOneAndUpdate(
+        { _id: userId },
+        { $set: { quizResponses } },
+        { new: true },
+      );
+
+      if (!result) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+
+      return result;
+    } catch (error) {
+      console.error('Error in saveQuizAnswers:', error);
+      throw new HttpException(
+        'Failed to update user',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
