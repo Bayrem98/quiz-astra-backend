@@ -46,12 +46,12 @@ export class UserController {
     return this.userService.delete(id);
   }
 
-  @Post(':id/save-answers')
+  @Post('saveanswers/:id')
   saveAnswers(
     @Param('id') userId: string,
-    @Body() quizAnswers: { quizResponses: string[] },
+    @Body() quizResponses: object[],
   ): Promise<User> {
-    return this.userService.saveQuizAnswers(userId, quizAnswers.quizResponses);
+    return this.userService.saveQuizAnswers(userId, quizResponses);
   }
   catch(error) {
     console.error('Error in saveAnswers:', error);

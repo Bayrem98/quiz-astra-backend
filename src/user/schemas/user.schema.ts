@@ -11,8 +11,8 @@ export class User {
   @Prop({ required: true, type: String })
   password: string;
 
-  @Prop({ type: [String], default: [] }) // Ajoutez cette ligne pour stocker les réponses du quiz
-  quizResponses: string[];
+  @Prop({ type: [Object] })
+  quizResponses: object[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -10,5 +10,5 @@ export default class UpdateUserDto {
   password?: string;
   @IsArray()
   @IsOptional()
-  quizResponses?: string[];
+  quizResponses?: object[];
 }

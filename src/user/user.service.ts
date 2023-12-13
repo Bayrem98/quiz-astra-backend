@@ -46,7 +46,7 @@ export class UserService {
 
   async saveQuizAnswers(
     userId: string,
-    quizResponses: string[],
+    quizResponses: object[],
   ): Promise<User> {
     const isValidObjectId = Types.ObjectId.isValid(userId);
 
