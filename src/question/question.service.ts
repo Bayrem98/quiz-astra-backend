@@ -7,8 +7,9 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 
 @Injectable()
 export class QuestionService {
-  async search(category: string) {
-    return this.questionModel.find({ category }).exec();
+  async search(category: string, quizType: string) {
+    const query = { category, quizType };
+    return this.questionModel.find(query).exec();
   }
 
   constructor(

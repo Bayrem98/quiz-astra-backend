@@ -18,9 +18,17 @@ import { QuestionService } from './question.service';
 export class QuestionController {
   constructor(private readonly QuestionService: QuestionService) {}
   @Get()
-  findAll(@Query('category') category: string) {
-    if (!category) return this.QuestionService.findAll();
-    return this.QuestionService.search(category);
+  findAll(
+    @Query('category') category: string,
+    @Query('quizType') quizType: string,
+  ) {
+    if (category && quizType) {
+      return this.QuestionService.search(category, quizType);
+    } else if (category) {
+      return this.QuestionService.search(category, '');
+    } else {
+      return this.QuestionService.findAll();
+    }
   }
 
   @Get(':id')

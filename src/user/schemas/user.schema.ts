@@ -11,7 +11,7 @@ export class User {
   @Prop({ required: true, type: String })
   password: string;
 
-  @Prop({ type: [Object] })
+  @Prop({ type: Array })
   quizResponses: object[];
 }
 

@@ -65,7 +65,7 @@ export class UserService {
     try {
       const result = await this.userModel.findOneAndUpdate(
         { _id: userId },
-        { $set: { quizResponses } },
+        { $set: { ...quizResponses, ...quizResponses } },
         { new: true },
       );
 

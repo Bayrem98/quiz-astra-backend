@@ -9,6 +9,8 @@ export class UpdateQuestionDto {
   @IsOptional()
   question?: string;
   @IsOptional()
+  quizType?: string;
+  @IsOptional()
   correct_answer?: string;
   @IsOptional()
   incorrect_answer1?: string;
