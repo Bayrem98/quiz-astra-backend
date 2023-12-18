@@ -13,6 +13,7 @@ import CreateUserDto from './dto/create-user.dto';
 import { User } from './user.interface';
 import UpdateUserDto from './dto/update-user.dto';
 import { UserService } from './user.service';
+import { QuizResponse } from 'src/quizresponse/schemas/quizresponse.schema';
 
 @Controller('user')
 export class UserController {
@@ -48,10 +49,10 @@ export class UserController {
 
   @Post('saveanswers/:id')
   saveAnswers(
-    @Param('id') userId: string,
-    @Body() quizResponses: object[],
+    @Param('id') id: string,
+    @Body() quizResponses: QuizResponse[],
   ): Promise<User> {
-    return this.userService.saveQuizAnswers(userId, quizResponses);
+    return this.userService.saveQuizAnswers(id, quizResponses);
   }
   catch(error) {
     console.error('Error in saveAnswers:', error);

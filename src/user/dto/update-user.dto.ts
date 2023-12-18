@@ -1,4 +1,5 @@
-import { IsArray, IsMongoId, IsOptional } from 'class-validator';
+import { IsMongoId, IsOptional } from 'class-validator';
+import { Quizresponse } from 'src/quizresponse/quizresponse.interface';
 
 export default class UpdateUserDto {
   @IsMongoId()
@@ -8,7 +9,6 @@ export default class UpdateUserDto {
   username?: string;
   @IsOptional()
   password?: string;
-  @IsArray()
   @IsOptional()
-  quizResponses?: object[];
+  quizResponses?: [Quizresponse];
 }

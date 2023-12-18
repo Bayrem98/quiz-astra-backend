@@ -5,6 +5,7 @@ import { Model, Types } from 'mongoose';
 import CreateUserDto from './dto/create-user.dto';
 import UpdateUserDto from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
+import { QuizResponse } from 'src/quizresponse/schemas/quizresponse.schema';
 
 @Injectable()
 export class UserService {
@@ -45,10 +46,10 @@ export class UserService {
   }
 
   async saveQuizAnswers(
-    userId: string,
-    quizResponses: object[],
+    id: string,
+    quizResponses: QuizResponse[],
   ): Promise<User> {
-    const isValidObjectId = Types.ObjectId.isValid(userId);
+    const isValidObjectId = Types.ObjectId.isValid(id);
 
     if (!isValidObjectId) {
       throw new HttpException('Invalid user ID', HttpStatus.BAD_REQUEST);
@@ -61,11 +62,16 @@ export class UserService {
       );
     }
 
-    // Utilisez la méthode du modèle pour mettre à jour les réponses du quiz
+    // Create an object to represent the update
+    const updateObject = { quizResponses: quizResponses };
+    console.log('User ID:', id);
+    console.log('Update Object:', updateObject);
+
+    // Utilize the model method to update quiz responses
     try {
       const result = await this.userModel.findOneAndUpdate(
-        { _id: userId },
-        { $set: { ...quizResponses, ...quizResponses } },
+        { _id: id },
+        { $set: updateObject },
         { new: true },
       );
 
