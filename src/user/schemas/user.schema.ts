@@ -13,7 +13,7 @@ export class User {
   password: string;
 
   @Prop({ type: [Object] })
-  quizResponses: [QuizResponse];
+  quizResponses?: QuizResponse[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

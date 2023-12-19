@@ -10,5 +10,5 @@ export default class UpdateUserDto {
   @IsOptional()
   password?: string;
   @IsOptional()
-  quizResponses?: [Quizresponse];
+  quizResponses?: Quizresponse[];
 }

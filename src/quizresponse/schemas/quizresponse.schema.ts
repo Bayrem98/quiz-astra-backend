@@ -1,18 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Question } from 'src/question/schemas/question.schema';
 
 export type QuizResponseDocument = QuizResponse & Document;
 
 @Schema()
 export class QuizResponse {
-  @Prop({ type: [Question] })
+  @Prop({ type: String })
+  _id?: string;
+
+  @Prop({ type: String })
   quizType: string;
 
-  @Prop({ type: [Question] })
+  @Prop({ type: String })
   category: string;
 
-  @Prop({ type: [Question] })
+  @Prop({ type: String })
   question: string;
 
   @Prop({ type: String })
