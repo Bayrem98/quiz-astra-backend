@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { Model, Types } from 'mongoose';
@@ -87,5 +92,25 @@ export class UserService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async getQuizAnswers(id: string): Promise<QuizResponse[]> {
+    const isValidObjectId = Types.ObjectId.isValid(id);
+
+    if (!isValidObjectId) {
+      throw new NotFoundException('Invalid user ID');
+    }
+
+    // Retrieve the user by ID
+    const user = await this.userModel.findOne({ _id: id }).exec();
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    // Assuming there's a property on the User model called 'quizResponses'
+    const quizResponses = user.quizResponses || [];
+
+    return quizResponses;
   }
 }

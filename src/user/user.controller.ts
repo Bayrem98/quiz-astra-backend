@@ -61,4 +61,9 @@ export class UserController {
       HttpStatus.INTERNAL_SERVER_ERROR,
     );
   }
+
+  @Get('quizanswers/:id')
+  userAnswers(@Param('id') id: string): Promise<QuizResponse[]> {
+    return this.userService.getQuizAnswers(id);
+  }
 }

@@ -1,7 +1,7 @@
-import { Quizresponse } from 'src/quizresponse/quizresponse.interface';
+import { QuizResponse } from 'src/quizresponse/schemas/quizresponse.schema';
 
 export default class CreateUserDto {
   username: string;
   password: string;
-  quizResponses?: Quizresponse[];
+  quizResponses?: QuizResponse[];
 }

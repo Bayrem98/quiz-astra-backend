@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type QuizResponseDocument = QuizResponse & Document;
 
@@ -8,13 +8,13 @@ export class QuizResponse {
   @Prop({ type: String })
   _id?: string;
 
-  @Prop({ type: String })
+  @Prop({ type: Types.ObjectId, ref: 'Question' })
   quizType: string;
 
-  @Prop({ type: String })
+  @Prop({ type: Types.ObjectId, ref: 'Question' })
   category: string;
 
-  @Prop({ type: String })
+  @Prop({ type: Types.ObjectId, ref: 'Question' })
   question: string;
 
   @Prop({ type: String })
