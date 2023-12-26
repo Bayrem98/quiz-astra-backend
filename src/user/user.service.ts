@@ -113,4 +113,48 @@ export class UserService {
 
     return quizResponses;
   }
+
+  async updateQuizAnswers(
+    id: string,
+    quizResponses: QuizResponse[],
+  ): Promise<User> {
+    const isValidObjectId = Types.ObjectId.isValid(id);
+
+    if (!isValidObjectId) {
+      throw new HttpException('Invalid user ID', HttpStatus.BAD_REQUEST);
+    }
+
+    if (!quizResponses || quizResponses.length === 0) {
+      throw new HttpException(
+        'Quiz responses are empty',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    // Create an object to represent the update
+    const updateObject = { quizResponses: quizResponses };
+    console.log('User ID:', id);
+    console.log('Update Object:', updateObject);
+
+    // Utilize the model method to update quiz responses
+    try {
+      const result = await this.userModel.findOneAndUpdate(
+        { _id: id },
+        { $set: updateObject },
+        { new: true },
+      );
+
+      if (!result) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+
+      return result;
+    } catch (error) {
+      console.error('Error in updateQuizAnswers:', error);
+      throw new HttpException(
+        'Failed to update user',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

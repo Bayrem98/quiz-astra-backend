@@ -66,4 +66,19 @@ export class UserController {
   userAnswers(@Param('id') id: string): Promise<QuizResponse[]> {
     return this.userService.getQuizAnswers(id);
   }
+
+  @Put('updateanswers/:id')
+  updateAnswers(
+    @Param('id') id: string,
+    @Body() quizResponses: QuizResponse[],
+  ): Promise<User> {
+    return this.userService.updateQuizAnswers(id, quizResponses);
+  }
+  catche(error) {
+    console.error('Error in updateAnswers:', error);
+    throw new HttpException(
+      'Internal Server Error',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
+  }
 }

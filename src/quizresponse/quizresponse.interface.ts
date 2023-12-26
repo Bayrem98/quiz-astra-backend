@@ -3,4 +3,6 @@ export interface QuizResponse {
   category: string;
   question: string;
   value: string;
+  correctionQuestion?: string;
+  note?: number;
 }

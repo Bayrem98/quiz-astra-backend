@@ -19,6 +19,12 @@ export class QuizResponse {
 
   @Prop({ type: String })
   value: string;
+
+  @Prop({ type: String })
+  correctionQuestion?: string;
+
+  @Prop({ type: Number })
+  note?: number;
 }
 
 export const QuizResponseSchema = SchemaFactory.createForClass(QuizResponse);
