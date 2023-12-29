@@ -15,8 +15,8 @@ export class User {
   @Prop({ type: Types.ObjectId, ref: 'QuizResponse' })
   quizResponses?: QuizResponse[];
 
-  @Prop({ type: String })
-  noteGlobal?: string;
+  @Prop({ type: Number })
+  noteGlobal?: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

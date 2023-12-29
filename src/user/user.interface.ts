@@ -4,5 +4,5 @@ export interface User {
   username: string;
   password: string;
   quizResponses?: QuizResponse[];
-  noteGlobal?: string;
+  noteGlobal?: number;
 }

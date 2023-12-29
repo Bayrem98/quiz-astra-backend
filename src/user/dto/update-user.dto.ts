@@ -12,5 +12,5 @@ export default class UpdateUserDto {
   @IsOptional()
   quizResponses?: QuizResponse[];
   @IsOptional()
-  noteGlobal?: string;
+  noteGlobal?: number;
 }
