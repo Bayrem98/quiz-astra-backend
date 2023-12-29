@@ -3,8 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  HttpStatus,
   Param,
   Post,
   Put,
@@ -48,37 +46,23 @@ export class UserController {
   }
 
   @Post('saveanswers/:id')
-  saveAnswers(
+  async saveAnswers(
     @Param('id') id: string,
-    @Body() quizResponses: QuizResponse[],
+    @Body() body: { quizResponses: QuizResponse[] },
   ): Promise<User> {
-    return this.userService.saveQuizAnswers(id, quizResponses);
-  }
-  catch(error) {
-    console.error('Error in saveAnswers:', error);
-    throw new HttpException(
-      'Internal Server Error',
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    return this.userService.saveQuizAnswers(id, body.quizResponses);
   }
 
   @Get('quizanswers/:id')
-  userAnswers(@Param('id') id: string): Promise<QuizResponse[]> {
+  userAnswers(@Param('id') id: string): Promise<User> {
     return this.userService.getQuizAnswers(id);
   }
 
   @Put('updateanswers/:id')
-  updateAnswers(
+  async updateUseranswer(
     @Param('id') id: string,
-    @Body() quizResponses: QuizResponse[],
+    @Body() updatedUser: User,
   ): Promise<User> {
-    return this.userService.updateQuizAnswers(id, quizResponses);
-  }
-  catche(error) {
-    console.error('Error in updateAnswers:', error);
-    throw new HttpException(
-      'Internal Server Error',
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    return this.userService.updateUseranswer(id, updatedUser);
   }
 }

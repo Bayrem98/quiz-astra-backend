@@ -54,93 +54,62 @@ export class UserService {
     id: string,
     quizResponses: QuizResponse[],
   ): Promise<User> {
-    const isValidObjectId = Types.ObjectId.isValid(id);
-
-    if (!isValidObjectId) {
-      throw new HttpException('Invalid user ID', HttpStatus.BAD_REQUEST);
-    }
-
-    if (!quizResponses || quizResponses.length === 0) {
+    // ... (Vérifiez l'ID, validez les réponses, etc.)
+    if (!Array.isArray(quizResponses)) {
       throw new HttpException(
-        'Quiz responses are empty',
+        'Invalid quizResponses format',
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    // Create an object to represent the update
-    const updateObject = { quizResponses: quizResponses };
-    console.log('User ID:', id);
-    console.log('Update Object:', updateObject);
+    // Récupérez les réponses existantes de l'utilisateur
+    const existingUser = await this.userModel.findOne({ _id: id }).exec();
+    const existingResponses = existingUser
+      ? existingUser.quizResponses || []
+      : [];
 
-    // Utilize the model method to update quiz responses
-    try {
-      const result = await this.userModel.findOneAndUpdate(
-        { _id: id },
-        { $set: updateObject },
-        { new: true },
-      );
+    // Fusionnez les nouvelles réponses avec les anciennes
+    const mergedResponses = [...existingResponses, ...quizResponses];
 
-      if (!result) {
-        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-      }
+    // Mettez à jour les réponses de l'utilisateur
+    const result = await this.userModel.findOneAndUpdate(
+      { _id: id },
+      { $set: { quizResponses: mergedResponses } },
+      { new: true },
+    );
 
-      return result;
-    } catch (error) {
-      console.error('Error in saveQuizAnswers:', error);
-      throw new HttpException(
-        'Failed to update user',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+    if (!result) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
+
+    return result;
   }
 
-  async getQuizAnswers(id: string): Promise<QuizResponse[]> {
+  async getQuizAnswers(id: string): Promise<User> {
     const isValidObjectId = Types.ObjectId.isValid(id);
 
     if (!isValidObjectId) {
       throw new NotFoundException('Invalid user ID');
     }
-
     // Retrieve the user by ID
     const user = await this.userModel.findOne({ _id: id }).exec();
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
-
-    // Assuming there's a property on the User model called 'quizResponses'
-    const quizResponses = user.quizResponses || [];
-
-    return quizResponses;
+    return user;
   }
 
-  async updateQuizAnswers(
-    id: string,
-    quizResponses: QuizResponse[],
-  ): Promise<User> {
+  async updateUseranswer(id: string, updatedUser: User): Promise<User> {
     const isValidObjectId = Types.ObjectId.isValid(id);
 
     if (!isValidObjectId) {
       throw new HttpException('Invalid user ID', HttpStatus.BAD_REQUEST);
     }
-
-    if (!quizResponses || quizResponses.length === 0) {
-      throw new HttpException(
-        'Quiz responses are empty',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    // Create an object to represent the update
-    const updateObject = { quizResponses: quizResponses };
-    console.log('User ID:', id);
-    console.log('Update Object:', updateObject);
-
-    // Utilize the model method to update quiz responses
     try {
       const result = await this.userModel.findOneAndUpdate(
         { _id: id },
-        { $set: updateObject },
+        { $set: updatedUser },
         { new: true },
       );
 
