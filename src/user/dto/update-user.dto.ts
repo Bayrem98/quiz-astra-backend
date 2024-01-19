@@ -13,4 +13,6 @@ export default class UpdateUserDto {
   quizResponses?: QuizResponse[];
   @IsOptional()
   noteGlobal?: number;
+  @IsOptional()
+  correcteur?: string;
 }

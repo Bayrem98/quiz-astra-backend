@@ -17,6 +17,9 @@ export class User {
 
   @Prop({ type: Number })
   noteGlobal?: number;
+
+  @Prop({ type: String })
+  correcteur?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

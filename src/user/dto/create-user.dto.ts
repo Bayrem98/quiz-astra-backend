@@ -5,4 +5,5 @@ export default class CreateUserDto {
   password: string;
   quizResponses?: QuizResponse[];
   noteGlobal?: number;
+  correcteur?: string;
 }
